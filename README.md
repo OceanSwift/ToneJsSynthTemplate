@@ -21,6 +21,9 @@ The template includes setups and examples for every important synthesis and inte
 - midi monitoring
 - midi learn system
 
+Installation:
+Just drop the html, css and js files into the same directory on a server and load the index.html file in a browser. All the synthesizer code is in the html file.
+
 Tone.js:
 https://github.com/Tonejs/Tone.js
 
