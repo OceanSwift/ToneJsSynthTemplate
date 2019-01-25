@@ -1,0 +1,909 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src='nexusUI.js'></script>
+	<script src='Tone.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/webmidi"></script>
+	<link rel="stylesheet" href="style.css">
+ <meta charset="utf-8">
+ <title>Tone/Nexus/P5/MIDI Template</title>
+</head>
+<body>
+
+<!-- -----------------Info Text---------------------------- -->    
+
+    <div class="infoTextContainer">
+        OS Web Midi Mono Synth Tone/Nexus Template
+        <br>
+        ** Best viewed in Chrome **
+        <br>
+        Report bugs: 
+        <br>
+        oceanswiftsynthesis@gmail.com
+    </div>
+
+<!-- -----------------Main Controls---------------------------- -->
+    
+    <div class="mainSettingsContainer">
+
+	<div class="mainGainContainer">
+	Main Gain
+	<br>
+    <input type="range" min="0" max="1" value="0.1" step="0.01" class="slider" id="mainGainSlider" oninput="mainGainSet()">
+    </div>
+
+	<div class="bpmContainer">
+    BPM
+	<br>
+    <input type="range" min="60" max="160" value="120" step="1" class="slider" id="bpmSlider" oninput="bpmSet()">
+    </div>
+
+    <div class="bpmDisplayText" id="bpmDisplay">
+	    
+	</div>
+
+    </div>
+
+<!-- -----------------Amp Envelope---------------------------- -->
+	
+	<div class="ampEnvelopeContainer">	
+		Amp Envelope
+	   	<br>
+	    <div class="attackSliderContainer" >
+	   	Attack
+	   	<br>
+	    <input type="range" min="0" max="1" value="0.01" step="0.01" class="slider" id="attackSlider" oninput="ampAttackSet()">
+	    </div>
+	    
+	    <div class="decaySliderContainer" >
+	    Decay
+	    <br>
+	    <input type="range" min="0" max="1" value="0.3" step="0.01" class="slider" id="decaySlider" oninput="ampDecaySet()">
+	    </div>
+
+	    <div class="sustainSliderContainer" >
+	    Sustain
+	    <br>
+	    <input type="range" min="0" max="1" value="1" step="0.01" class="slider" id="sustainSlider" oninput="ampSustainSet()">
+	    </div>
+
+	    <div class="releaseSliderContainer" >
+	    Release
+	    <br>
+	    <input type="range" min="0" max="1" value="0.25" step="0.01" class="slider" id="releaseSlider" oninput="ampReleaseSet()">
+	    </div>
+
+    </div>
+
+<!-- -----------------Filter---------------------------- -->   
+		
+		<div class="filterSettingsContainer">	
+			Filter
+	   		<br>
+			<div class="filterCutSliderContainer">
+		    Cut
+		    <br>
+		    <input type="range" min="0" max="1" value="0.75" step="0.01" class="slider" id="filterCutSlider" oninput="mainFilterCutSet()">
+		    </div>
+
+		    <div class="filterResSliderContainer">
+		    Res
+		    <br>
+		    <input type="range" min="0" max="1" value="0.25" step="0.01" class="slider" id="filterResSlider" oninput="mainFilterResSet()">
+		    </div> 
+
+		    <div class="mainFilterLfoModSliderContainer">
+		    Mod
+		    <br>
+		    <input type="range" min="0" max="1" value="0.25" step="0.01" class="slider" id="mainFilterLfoModSlider" oninput="mainFilterLfoModSet()">
+		    </div> 
+
+		    <div class="mainFilterLfoRateSliderContainer">
+		    Rate
+		    <br>
+		    <input type="range" min="0" max="1" value="0.25" step="0.01" class="slider" id="mainFilterLfoRateSlider" oninput="mainFilterLfoRateSet()">
+		    </div> 
+
+		    <div class="mainFilterLfoRateDisplayText" id="mainFilterLfoRateDisplay">
+	    
+	    	</div>
+
+		    <label class="mainFilterSyncCheboxContainer">
+		    Sync
+		    <br>
+		    	<input type="checkbox" id="mainFilterSyncCheckbox" onclick="mainFilterLfoRateSet()">
+		    <span class="checkmarkMainFilterSync"></span>
+
+		    <br>
+
+		    <label class="mainFilterRetrigCheboxContainer">
+		    Retrig
+		    <br>
+		    	<input type="checkbox" id="mainFilterRetrigCheckbox">
+		    <span class="checkmarkMainFilterRetrig"></span>
+
+	    </label>
+
+	    </div> 
+
+<!-- -----------------Delay---------------------------- -->   
+		
+		<div class="delaySettingsContainer">	
+			Delay
+	   		<br>
+			<div class="delayTimeSliderContainer">
+		    Time
+		    <br>
+		    <input type="range" min="0" max="18" value="5" step="1" class="slider" id="delayTimeSlider" oninput="delayTimeSet()">
+		    </div>
+
+		    <div class="delayTimeDisplayText" id="delayTimeDisplay">
+	    
+	    	</div>
+
+		    <div class="delayFbSliderContainer">
+		    FB
+		    <br>
+		    <input type="range" min="0" max="1" value="0.75" step="0.01" class="slider" id="delayFbSlider" oninput="delayFbSet()">
+		    </div>
+
+		    <div class="delayWetSliderContainer">
+		    Wet
+		    <br>
+		    <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="delayWetSlider" oninput="delayWetSet()">
+		    </div>
+
+	    </div> 
+    
+<!-- -----------------Pitch Bend---------------------------- -->
+
+	<div class="pitchBendSettingsContainer">	
+
+		<div class="pitchBendText">
+	    Pitch Bend
+	    </div>
+
+	    <div class="pitchBendSliderContainer" onchange="pitchBendAction()" >
+	  	  <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="pitchBendSlider">
+	    </div>
+
+	    <div class="bendRangeText">
+	    Bend Range
+	    </div>
+
+	    <div class="bendRangeSliderContainer" oninput="pitchBendRangeSet()" >
+	 		<input type="range" min="0" max="12" value="2" class="slider" id="bendRangeSlider">
+	    </div>
+
+	    <div class="bendRangeDisplayText" id="bendRangeDisplay">
+	    
+	    </div>
+
+    </div>
+
+<!-- -----------------Virtual Keys---------------------------- -->
+
+    <div class="keyboardContainer" id="keyboardDiv"></div>
+
+    <div class="oscilloscopeContainer" id="oscilloscopeDiv"></div>
+
+<!-- -----------------MIDI Settings---------------------------- -->
+
+	<div class="midiSettingsContainer">
+
+	    <div class="midi-select" style="width:75px;">
+	            <select id="midiDevicesSelector">
+	                <option value="0">1</option>
+	                <option value="1">2</option>
+	                <option value="2">3</option>
+	                <option value="3">4</option>
+	                <option value="4" selected="selected" >5</option>
+	            </select>
+	    </div>
+
+	    <div class="midiMonitorDisplayContainer" id="midiMonitorDisplay">
+	    Midi Monitor
+	    </div>   
+
+		<div class="midiLearnText" id="midiCheckResult">
+	    Learn
+	    </div>
+
+	    <label class="midiLearn">
+	        <input type="checkbox" id="midiLearnCheckbox" >
+	        <span class="checkmarkMidiLearn"></span>
+	    </label>
+		
+ 		<div class="velocityText">
+	    Velocity
+	    </div>
+
+		<label class="velocityCheboxContainer">
+		    <input type="checkbox" id="velocityOnCheckbox">
+		    <span class="checkmarkVelocity"></span>
+	    </label>
+
+    </div>
+
+<script>
+
+////////////////////////
+// Tone/p5/Nexus Template
+// 2019 Ocean Swift Synthesis
+///////////////////////
+
+/////////////////////////////////////////// DOM Elements to variables
+// DOM Elements to variables
+
+// MIDI
+var midiDevices = document.getElementById('midiDevicesSelector');
+var myMidiMonitor = document.getElementById('midiMonitorDisplay');
+var velocityOn = document.getElementById('velocityOnCheckbox');
+
+// MIDI learn
+var midiLearn = document.getElementById('midiLearnCheckbox');
+var control = [];
+var controlId = [];
+var lastChanged;
+ 
+ // BPM
+var tempoBpm = document.getElementById('bpmSlider');
+bpmDisplay.innerHTML = tempoBpm.value;
+
+// pitch bend vars
+var pitchBender = document.getElementById("pitchBendSlider");
+var bendRange = document.getElementById("bendRangeSlider");
+var bendDisplay = document.getElementById("bendRangeDisplay");  
+var bendAction = false;
+bendDisplay.innerHTML = bendRange.value;
+
+// gain
+var mainGain = document.getElementById('mainGainSlider');
+control[0] = document.getElementById("mainGainSlider");
+  
+//amp envelope
+var ampA = document.getElementById("attackSlider");
+control[1] = document.getElementById("attackSlider");
+
+var ampD = document.getElementById("decaySlider");
+control[2] = document.getElementById("decaySlider");
+
+var ampS = document.getElementById("sustainSlider");
+control[3] = document.getElementById("sustainSlider");
+
+var ampR = document.getElementById("releaseSlider");
+control[4] = document.getElementById("releaseSlider");
+
+//filter
+var filterCut = document.getElementById("filterCutSlider");
+control[5] = document.getElementById("filterCutSlider");
+
+var filterRes = document.getElementById("filterResSlider");
+control[6] = document.getElementById("filterResSlider");
+
+//filter
+var mainFilterLfoMod = document.getElementById("mainFilterLfoModSlider");
+control[7] = document.getElementById("mainFilterLfoModSlider");
+
+var mainFilterLfoRate = document.getElementById("mainFilterLfoRateSlider");
+control[8] = document.getElementById("mainFilterLfoRateSlider");
+
+var mainFilterLfoRateDisplay = document.getElementById("mainFilterLfoRateDisplay"); 
+mainFilterLfoRateDisplay.innerHTML = mainFilterLfoRate.value;
+
+var mainFilterLfoRetrig = document.getElementById("mainFilterRetrigCheckbox");
+var mainFilterLfoSync = document.getElementById("mainFilterSyncCheckbox");
+
+//delay
+var delayTime = document.getElementById("delayTimeSlider");
+control[9] = document.getElementById("delayTimeSlider");
+
+var delayTimeDisplay = document.getElementById("delayTimeDisplay");  
+delayTimeDisplay.innerHTML = "4n";
+
+var delayFb = document.getElementById("delayFbSlider");
+control[10] = document.getElementById("delayFbSlider");
+
+var delayWet = document.getElementById("delayWetSlider");
+control[11] = document.getElementById("delayWetSlider");
+
+/////////////////////////////////////////// DOM Elements to variables
+
+/////////////////////////////////////////// Global variables
+
+// last changed gui param for MIDI learn
+var lastChanged;
+
+/////////////////////////////////////////// Global Variables
+
+/////////////////////////////////////////// Canvas Variables
+
+// Send Tone audio to Nexus
+Nexus.context = Tone.context;
+
+// virtual piano create and send to html div
+var piano = new Nexus.Piano('#keyboardDiv',{
+    'size': [750,125],
+    'mode': 'button',  // 'button', 'toggle', or 'impulse'
+    'lowNote': 24,
+    'highNote': 84
+})
+
+// create oscilloscope and send to html div
+var oscilloscope = new Nexus.Oscilloscope('#oscilloscopeDiv')
+
+
+/////////////////////////////////////////// Canvas Variables
+
+////////////////////////////////////////// MIDI Variables
+var noteOn;
+var noteOff;
+var midiFreq;
+var midiVelocity;
+var count = 0;
+var pitchBend = 1;
+
+////////////////////////////////////////// MIDI Variables
+
+/////////////////////////////////////////// Audio Variables
+
+//  create audo objects
+var osc = new Tone.Oscillator(440, "sawtooth");
+var mainFilterLfo = new Tone.LFO(0.1,400,4000).start();
+var mainFilter = new Tone.Filter(Nexus.scale(parseFloat(filterCut.value),0,1,20,10000), "lowpass",-24);
+var ampEnvelope = new Tone.Envelope (0.1,0.1,1,0.1)
+var vcaNode = Tone.context.createGain();
+var pingPong = new Tone.PingPongDelay("4n", 0.7);
+
+// audio connections
+mainFilterLfo.connect(mainFilter.frequency);
+osc.connect(mainFilter);	
+mainFilter.connect(vcaNode);	
+ampEnvelope.connect(vcaNode.gain);
+
+vcaNode.connect(pingPong);
+pingPong.connect(Tone.Master);
+
+// audio initial values
+
+ampEnvelope.attack = Nexus.scale(parseFloat(ampA.value),0,1,0.01,2);
+ampEnvelope.decay = Nexus.scale(parseFloat(ampD.value),0,1,0.01,2);
+ampEnvelope.sustain = parseFloat(ampS.value);
+ampEnvelope.release = Nexus.scale(parseFloat(ampR.value),0,1,0.01,3);
+
+mainFilter.frequency.value = Nexus.scale(parseFloat(filterCut.value),0,1,20,10000);
+mainFilter.Q.value = Nexus.scale(parseFloat(filterRes.value),0,1,0.01,10);
+mainFilterLfo.amplitude.value = parseFloat(mainFilterLfoMod.value);
+mainFilterLfo.frequency.value = Nexus.scale(parseFloat(mainFilterLfoRate.value),0,1,0.01,10);
+Tone.Master.volume.value = Nexus.scale(parseFloat(mainGain.value),0,1,-50,-10);
+
+pingPong.wet.value = parseFloat(delayWet.value);
+
+Tone.Transport.bpm.value = parseFloat(tempoBpm.value);
+
+delayTimeSet();
+mainFilterLfoRateSet();
+osc.start();
+
+// connect oscilloscope to output
+oscilloscope.connect(Tone.Master);
+
+/////////////////////////////////////////// Audio Variables
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////// Listeners
+
+// get the virtual piano 
+piano.on('change',function(v) {
+	if (v.state){
+		midiVelocity = 1;
+
+		// set the osc frequency to the played key	
+		 freq = Nexus.mtof(v.note);
+		 osc.frequency.value = freq*pitchBend;
+		 ampEnvelope.triggerAttack();
+		 if (mainFilterLfoRetrig.checked){
+		 		mainFilterLfo.stop();
+		 		mainFilterLfo.start();
+			}
+	}else{
+		ampEnvelope.triggerRelease();
+	}
+})
+
+// pitch bend action to snap to center
+function pitchBendAction() {
+    pitchBender.value = 0.5;
+}
+
+// display pitch bend range values in gui text
+function pitchBendRangeSet() {
+    bendDisplay.innerHTML = bendRange.value;
+}
+
+// call parameter functions when changed by MIDI cc
+function controlCall(controlMatch){
+	switch(controlMatch){
+		case 0:
+		mainGainSet();
+		case 1:
+		ampAttackSet();
+		break;
+		case 2:
+		ampDecaySet();
+		break;
+		case 3:
+		ampSustainSet();
+		break;
+		case 4:
+		ampReleaseSet();
+		break;
+		case 5:
+		mainFilterCutSet();
+		break;
+		case 6:
+		mainFilterResSet();
+		break;
+		case 7:
+		mainFilterLfoModSet();
+		break;
+		case 8:
+		mainFilterLfoRateSet();
+		break;
+		case 9:
+		delayTimeSet();
+		break;
+		case 10:
+		delayFbSet();
+		break;
+		case 11:
+		delayWetSet();
+		break;
+	}
+}
+
+// bpm set
+function bpmSet(){
+	Tone.Transport.bpm.value = parseInt(tempoBpm.value);
+	bpmDisplay.innerHTML = tempoBpm.value;
+	delayTimeSet();
+	mainFilterLfoRateSet();
+}
+
+// main gain
+function mainGainSet() {
+	Tone.Master.volume.value = Nexus.scale(parseFloat(mainGain.value),0,1,-50,-10);
+    lastChanged = 0;
+}
+
+// amp attack
+function ampAttackSet() {
+    ampEnvelope.attack = Nexus.scale(parseFloat(ampA.value),0,1,0.01,2);
+    lastChanged = 1;
+}
+
+// amp decay
+function ampDecaySet() {
+    ampEnvelope.decay = Nexus.scale(parseFloat(ampD.value),0,1,0.01,2);
+    lastChanged = 2;
+}
+
+// amp sustain
+function ampSustainSet() {
+    ampEnvelope.sustain = parseFloat(ampS.value);
+    lastChanged = 3;
+}
+
+// amp release
+function ampReleaseSet() {
+    ampEnvelope.release = Nexus.scale(parseFloat(ampR.value),0,1,0.01,3);
+    lastChanged = 4;
+}
+
+// filter cut
+function mainFilterCutSet() {
+    mainFilter.frequency.value = Nexus.scale(parseFloat(filterCut.value),0,1,20,10000);
+    lastChanged = 5;
+}
+
+// filter res
+function mainFilterResSet() {
+    mainFilter.Q.value = Nexus.scale(parseFloat(filterRes.value),0,1,0.01,10);
+    lastChanged = 6;
+}
+
+// filter lfo mod
+function mainFilterLfoModSet() {
+	mainFilterLfo.amplitude.value = parseFloat(mainFilterLfoMod.value);
+    lastChanged = 7;	
+}
+
+// filter lfo rate
+function mainFilterLfoRateSet() {
+	if (mainFilterLfoSync.checked){
+		var filterLfoRateString;
+		var syncValue = parseInt(Nexus.scale(parseFloat(mainFilterLfoRate.value),0,1,0,24));
+		switch(syncValue){
+		case 0:
+		mainFilterLfo.frequency.value = "64m";
+		filterLfoRateString = "64b";
+		break;
+		case 1:
+		mainFilterLfo.frequency.value = "32m";
+		filterLfoRateString = "32b";
+		break;
+		case 2:
+		mainFilterLfo.frequency.value = "16m";
+		filterLfoRateString = "16b";
+		break;
+		case 3:
+		mainFilterLfo.frequency.value = "8m";
+		filterLfoRateString = "8b";
+		break;
+		case 4:
+		mainFilterLfo.frequency.value = "4m";
+		filterLfoRateString = "4b";
+		break;	
+		case 5:
+		mainFilterLfo.frequency.value = "2m";
+		filterLfoRateString = "2b";
+		break;
+		case 6:
+		mainFilterLfo.frequency.value = "1m";
+		filterLfoRateString = "1b";
+		break;	
+		case 7:
+		mainFilterLfo.frequency.value = "2n.";
+		filterLfoRateString = "2n.";
+		break;
+		case 8:
+		mainFilterLfo.frequency.value = "2n";
+		filterLfoRateString = "2n";
+		break;
+		case 9:
+		mainFilterLfo.frequency.value = "2t";
+		filterLfoRateString = "2t";
+		break;
+		case 10:
+		mainFilterLfo.frequency.value = "4n.";
+		filterLfoRateString = "4n.";
+		break;
+		case 11:
+		mainFilterLfo.frequency.value = "4n";
+		filterLfoRateString = "4n";
+		break;
+		case 12:
+		mainFilterLfo.frequency.value = "4t";
+		filterLfoRateString = "4t";
+		break;
+		case 13:
+		mainFilterLfo.frequency.value = "8n.";
+		filterLfoRateString = "8n.";
+		break;
+		case 14:
+		mainFilterLfo.frequency.value = "8n";
+		filterLfoRateString = "8n";
+		break;
+		case 15:
+		mainFilterLfo.frequency.value = "8t";
+		filterLfoRateString = "8t";
+		break;
+		case 16:
+		mainFilterLfo.frequency.value = "16n.";
+		filterLfoRateString = "16n.";
+		break;
+		case 17:
+		mainFilterLfo.frequency.value = "16n";
+		filterLfoRateString = "16n";
+		break;
+		case 18:
+		mainFilterLfo.frequency.value = "16t";
+		filterLfoRateString = "16t";
+		break;
+		case 19:
+		mainFilterLfo.frequency.value = "32n.";
+		filterLfoRateString = "32n.";
+		break;
+		case 20:
+		mainFilterLfo.frequency.value = "32n";
+		filterLfoRateString = "32n";
+		break;
+		case 21:
+		mainFilterLfo.frequency.value = "32t";
+		filterLfoRateString = "32t";
+		break;
+		case 22:
+		mainFilterLfo.frequency.value = "64n.";
+		filterLfoRateString = "64n.";
+		break;
+		case 23:
+		mainFilterLfo.frequency.value = "64n";
+		filterLfoRateString = "64n";
+		break;
+		case 24:
+		mainFilterLfo.frequency.value = "64t";
+		filterLfoRateString = "64t";
+		break;
+	}
+	mainFilterLfoRateDisplay.innerHTML = filterLfoRateString;
+	}else{
+	mainFilterLfo.frequency.value = Nexus.scale(parseFloat(mainFilterLfoRate.value),0,1,0.01,10);
+	mainFilterLfoRateDisplay.innerHTML = mainFilterLfo.frequency.value;
+    }	
+    lastChanged = 8;
+}
+
+// delay time
+function delayTimeSet() {
+	var delayString;
+	switch(parseInt(delayTime.value)){
+		case 0:
+		pingPong.delayTime.value = "64t";
+		delayString = "64t";
+		break;
+		case 1:
+		pingPong.delayTime.value = "64n";
+		delayString = "64n";
+		break;
+		case 2:
+		pingPong.delayTime.value = "64n.";
+		delayString = "64n.";
+		break;
+		case 3:
+		pingPong.delayTime.value = "32t";
+		delayString = "32t";
+		break;
+		case 4:
+		pingPong.delayTime.value = "32n";
+		delayString = "32n";
+		break;
+		case 5:
+		pingPong.delayTime.value = "32n.";
+		delayString = "32n.";
+		break;
+		case 6:
+		pingPong.delayTime.value = "16t";
+		delayString = "16t";
+		break;
+		case 7:
+		pingPong.delayTime.value = "16n";
+		delayString = "16n";
+		break;
+		case 8:
+		pingPong.delayTime.value = "16n.";
+		delayString = "16n.";
+		break;
+		case 9:
+		pingPong.delayTime.value = "8t";
+		delayString = "8t";
+		break;
+		case 10:
+		pingPong.delayTime.value = "8n";
+		delayString = "8n";
+		break;
+		case 11:
+		pingPong.delayTime.value = "8n.";
+		delayString = "8n.";
+		break;
+		case 12:
+		pingPong.delayTime.value = "4t";
+		delayString = "4t";
+		break;
+		case 13:
+		pingPong.delayTime.value = "4n";
+		delayString = "4n";
+		break;
+		case 14:
+		pingPong.delayTime.value = "4n.";
+		delayString = "4n.";
+		break;
+		case 15:
+		pingPong.delayTime.value = "2t";
+		delayString = "2t";
+		break;
+		case 16:
+		pingPong.delayTime.value = "2n";
+		delayString = "2n";
+		break;
+		case 17:
+		pingPong.delayTime.value = "2n.";
+		delayString = "2n.";
+		break;
+		case 18:
+		pingPong.delayTime.value = "1m";
+		delayString = "1b";
+		break;
+	}
+	delayTimeDisplay.innerHTML = delayString;
+    lastChanged = 9;	
+}
+
+// delay feedback
+function delayFbSet() {
+	pingPong.feedback.value = parseFloat(delayFb.value);
+    lastChanged = 10;	
+}
+
+// delay wet
+function delayWetSet() {
+	pingPong.wet.value = parseFloat(delayWet.value);
+    lastChanged = 11;	
+}
+
+/////////////////////////////////////////// Listeners
+
+/////////////////////////////////////////// MIDI
+
+// get a midi object from the browser
+navigator.requestMIDIAccess()
+    .then(onMIDISuccess, onMIDIFailure);
+
+// process the midi object
+function onMIDISuccess(midiAccess) {
+    midiObject = midiAccess;
+    var inputs = midiAccess.inputs;
+    var outputs = midiAccess.outputs;
+
+    midiDevices.options.length = 0;
+    midiAccess.inputs.forEach(function (input) {
+    midiDevices.options[midiDevices.options.length] = new Option(input.name, input.id);
+    });
+}
+
+// select the midi driver
+midiDevices.addEventListener('change', function() {
+    selectedMidiDevice=midiDevices.value;
+    onMIDISelectedDevice();
+}, false);
+
+// process midi messages from selected driver
+function onMIDISelectedDevice(){
+    for (var input of midiObject.inputs.values()){
+       if (input.id == selectedMidiDevice){
+        	input.onmidimessage = getMIDIMessage;
+      	}else{input.onmidimessage = 0;}
+    }
+}
+
+// browser midi failure console log
+function onMIDIFailure() {
+    console.log('Could not access your MIDI devices.');
+}
+
+// process midi messages
+function getMIDIMessage(message) {
+  
+  /*//midi log
+  console.log(message.data[0]);
+  console.log(message.data[1]);
+  console.log(message.data[2]);*/
+    
+    var command = message.data[0];
+    var note = message.data[1];
+    var value = message.data[2];
+    var velocity = (message.data.length > 2) ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
+    indicatorFill = true;
+    switch (command) {
+        case 144: // noteOn
+        myMidiMonitor.innerHTML = 'Note On ' + message.data[1] + ' Velocity ' + message.data[2];
+            if (velocity > 0) {
+             noteOn = true;
+             if (velocityOn.checked){
+                midiVelocity = velocity/127;
+             }else{
+                midiVelocity = 1;
+             }
+            freq = Nexus.mtof(note);
+            osc.frequency.value = freq * pitchBend;
+		 	ampEnvelope.triggerAttack("+0.0", midiVelocity);
+		 if (mainFilterLfoRetrig.checked){
+		 		mainFilterLfo.stop();
+		 		mainFilterLfo.start();
+			}
+         //  piano.toggleKey(note,true);
+            count++;
+            } else {
+              count--;
+              if (count <1){
+                noteOn = false;
+              ampEnvelope.triggerRelease();
+	            
+	           /* // show on virtual keys
+	            pianoI = 24;
+				      while (pianoI < 85 ) {
+			         piano.toggleKey(pianoI,false); 
+				      pianoI++;
+				      }*/
+
+                }
+            }
+            break;
+        case 128: // noteOff
+              myMidiMonitor.innerHTML = 'Note Off ' + message.data[1] + ' Velocity ' + message.data[2];
+              count--;
+              if (count <1){
+                noteOn = false;
+          		  ampEnvelope.triggerRelease();
+
+			          /* // show on virtual keys
+	           		 pianoI = 24;
+				      while (pianoI < 85 ) {
+			         piano.toggleKey(pianoI,false); 
+				      pianoI++;
+				      }*/
+
+                }
+            
+            break;
+        case 224: // pitch bend
+            myMidiMonitor.innerHTML = 'Pitch Bend ' + message.data[1] + ' MSB ' + message.data[2];
+            pitchBend = Math.pow(2,((((((message.data[2] << 7) | message.data[1]) * 2) / 16383) - 1) * (bendRange.value))/12);
+            pitchBender.value = value/127;
+            osc.frequency.value = freq * pitchBend;
+            if (message.data[2]===64){
+              bendAction = false;
+            }else{
+              bendAction = true;
+            }
+            break;
+        case 191: // control change - cc    
+            myMidiMonitor.innerHTML = 'CC ' + message.data[1] + ' Value ' + message.data[2];
+            if (!midiLearn.checked){
+                //look in the controlId array and find the index containing the incoming cc
+                var match = controlId.indexOf(message.data[1]);
+                if (match >= 0){
+                  if (match<90){ // sliders
+                    control[match].value = message.data[2]/127;
+                    controlCall(match);
+                  }else{ // checkboxes
+                    if (message.data[2]>63){ 
+                      control[match].checked = true;
+                    }else{
+                      control[match].checked = false;
+                    }
+                    }
+                  }
+                }
+             else{
+                 controlId[lastChanged] = message.data[1];
+             }
+             break;
+          case 176: // control change - cc    
+            myMidiMonitor.innerHTML = 'CC ' + message.data[1] + ' Value ' + message.data[2];
+            if (!midiLearn.checked){
+                //look in the controlId array and find the index containing the incoming cc
+                var match = controlId.indexOf(message.data[1]);
+                if (match >= 0){
+                  if (match<90){ // sliders
+                    control[match].value = message.data[2]/127;
+                    controlCall(match);
+                  }else{ // checkboxes
+                    if (message.data[2]>63){
+                      control[match].checked = true;
+                    }else{
+                      control[match].checked = false;
+                    }
+                    }
+                  }
+                }
+               
+             else{
+                 controlId[lastChanged] = message.data[1];
+             }
+             break;
+    }
+}
+
+/////////////////////////////////////////// MIDI
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////// End Script
+
+	</script>
+</body>
+</html>

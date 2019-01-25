@@ -1,0 +1,53 @@
+.infoTextContainer {
+  position: absolute;
+  top: 10px;
+  left: 700px;
+}
+
+.mainSettingsContainer {
+  position: absolute;
+  top: 300px;
+  left: 400px;
+}
+
+.ampEnvelopeContainer {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+}
+
+.filterSettingsContainer {
+  position: absolute;
+  top: 10px;
+  left: 350px;
+}
+
+.delaySettingsContainer {
+  position: absolute;
+  top: 10px;
+  left: 500px;
+}
+
+.midiSettingsContainer {
+  position: absolute;
+  top: 300px;
+  left: 0px;
+}
+
+.pitchBendSettingsContainer {
+  position: absolute;
+  top: 300px;
+  left: 200px;
+}
+
+.keyboardContainer {
+  position: absolute;
+  top: 450px;
+  left: 0px;
+}
+
+.oscilloscopeContainer {
+  position: absolute;
+  top: 450px;
+  left: 750px;
+}
