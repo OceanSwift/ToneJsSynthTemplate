@@ -2,7 +2,7 @@
 
 <img src="https://github.com/OceanSwift/ToneJsSynthTemplate/blob/master/tone_template_screenshot.png">
 
-Template file for a synthesizer using Tone.js and Nexus.js Detailed commenting and structure make it easy to modify, expand and learn from.
+Template file for a synthesizer using Tone.js and Nexus.js Detailed commenting and structure make it easy to modify, expand and learn from. Tone.js is used for all the audio synthesis, Nexus.js provides the virtual piano keyboard and the oscilloscope.
 
 Includes a basic CSS file and all elements are CSS ready. 
 
