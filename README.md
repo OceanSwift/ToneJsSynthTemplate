@@ -18,8 +18,9 @@ The template includes setups and examples for every important synthesis and inte
 - signal analyzing oscilloscope
 - midi interface
 - midi pitch bend
+- midi velocity
 - midi monitoring
-- midi learn system
+- midi cc learn system
 
 Installation:
 Just drop the html, css and js files into the same directory on a server and load the index.html file in a browser. All the synthesizer code is in the html file.
