@@ -9,6 +9,9 @@ The template includes setups and examples for every important synthesis and inte
 - resonating filter
 - modulation at audio rate with filter LFO
 - envelope behavior
+- audio effect integration
+- BPM time sync
+- oscillator (LFO) phase retriggering
 - virtual midi keyboard
 - signal analyzing oscilloscope
 - midi interface
