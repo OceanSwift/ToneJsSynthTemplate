@@ -17,6 +17,7 @@ The template includes setups and examples for every important synthesis and inte
 - virtual midi keyboard
 - signal analyzing oscilloscope
 - midi interface
+- midi pitch bend
 - midi monitoring
 - midi learn system
 
